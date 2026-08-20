@@ -6,7 +6,7 @@ export function ChatPanel({
   open,
   onClose,
 }: Readonly<{ open: boolean; onClose: () => void }>) {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   const [input, setInput] = useState("");
 
@@ -72,7 +72,8 @@ export function ChatPanel({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={
-              session ? "Ask about issues, PRs, commits…" : "Sign in to start"
+              // session ? "Ask about issues, PRs, commits…" :
+              "Sign in to start"
             }
           />
           <button
