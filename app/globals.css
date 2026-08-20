@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #0b0e14;
+  --surface: #121721;
+  --surface-raised: #1a2029;
+  --border: #242b36;
+  --text: #e7eaf0;
+  --text-muted: #838ea0;
+  --accent-git: #3fb950;
+  --accent-ai: #8b7ff6;
+  --accent-danger: #f85149;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes graph-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    r: 3;
+  }
+  50% {
+    opacity: 1;
+    r: 4.5;
+  }
+}
+
+@keyframes graph-flow {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
 }
