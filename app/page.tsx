@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
-import { signIn, signOut } from "next-auth/react";
-import { CommitGraph } from "./components/CommitGraph";
 import { ChatPanel } from "./components/ChatPanel";
+import { CommitGraph } from "./components/CommitGraph";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Home() {
+  const { data: session, status } = useSession();
   const [chatOpen, setChatOpen] = useState(false);
 
   return (
@@ -12,27 +13,29 @@ export default function Home() {
       <nav className="flex items-center justify-between px-6 sm:px-10 py-5 border-b border-(--border)">
         <span className="font-mono text-sm text-(--text)">repo-assistant</span>
 
-        <div className="flex items-center gap-3">
-          {/* <span className="hidden sm:inline text-sm text-(--text-muted)">
-            Osbey
-          </span> */}
+        {status === "loading" ? null : session ? (
+          <div className="flex items-center gap-3">
+            {session.user?.name}
+            <button
+              type="button"
+              onClick={() => signOut()}
+              className="text-sm text-(--text-muted) hover:text-(--text) transition-colors"
+            >
+              Sign out
+            </button>
+          </div>
+        ) : (
           <button
             type="button"
-            onClick={() => signOut()}
-            className="text-sm text-(--text-muted) hover:text-(--text) transition-colors"
-          >
-            Sign out
-          </button>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => signIn("github")}
-          className="text-sm bg-(--surface-raised) border border-(--border) rounded-lg px-4 py-2
+            onClick={() => signIn("github")}
+            className="text-sm bg-(--surface-raised) border border-(--border) rounded-lg px-4 py-2
               hover:border-(--accent-ai) transition-colors"
-        >
-          Sign in with GitHub
-        </button>
+          >
+            Sign in with GitHub
+          </button>
+        )}
+
+        {/* */}
       </nav>
 
       <main className="grid sm:grid-cols-2 min-h-[calc(100vh-73px)]">
@@ -50,23 +53,25 @@ export default function Home() {
             dashboard hopping.
           </p>
 
-          {/* <button
+          {session ? (
+            <button
               type="button"
               onClick={() => setChatOpen(true)}
               className="w-fit bg-(--accent-ai) text-white rounded-lg px-6 py-3 text-sm font-medium
                 hover:bg-(--accent-ai)/90 transition-colors"
             >
               Open assistant
-            </button> */}
-
-          <button
-            type="button"
-            onClick={() => signIn("github")}
-            className="w-fit bg-(--accent-ai) text-white rounded-lg px-6 py-3 text-sm font-medium
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => signIn("github")}
+              className="w-fit bg-(--accent-ai) text-white rounded-lg px-6 py-3 text-sm font-medium
                 hover:bg-(--accent-ai)/90 transition-colors"
-          >
-            Connect GitHub to start
-          </button>
+            >
+              Connect GitHub to start
+            </button>
+          )}
         </div>
 
         <div className="hidden sm:block relative">
