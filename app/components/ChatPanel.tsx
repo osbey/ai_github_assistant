@@ -162,8 +162,7 @@ export function ChatPanel({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={
-              // session ? "Ask about issues, PRs, commits…" :
-              "Sign in to start"
+              session ? "Ask about issues, PRs, commits…" : "Sign in to start"
             }
           />
           <button
