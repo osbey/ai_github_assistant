@@ -25,7 +25,9 @@ export async function POST(req: Request) {
   const session = await auth();
 
   if (!session?.accessToken) {
-    return new Request("Unauthorized - please sign in with Github.");
+    return new Response("Unauthorized - please sign in with Github.", {
+      status: 401,
+    });
   }
 
   const { messages }: { messages: UIMessage[] } = await req.json();
